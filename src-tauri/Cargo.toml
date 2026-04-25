@@ -1,0 +1,88 @@
+[package]
+name = "taby"
+version = "1.0.0"
+description = "Taby Browser - Fast, Private, Developer-Friendly"
+authors = ["Taby Team"]
+edition = "2021"
+rust-version = "1.77"
+
+[[bin]]
+name = "taby"
+path = "src/main.rs"
+
+[lib]
+name = "taby_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.0", features = [] }
+
+[dependencies]
+# Tauri Core
+tauri = { version = "2.0", features = ["tray-icon", "image-ico", "image-png"] }
+tauri-plugin-fs = "2.0"
+tauri-plugin-http = "2.0"
+tauri-plugin-shell = "2.0"
+tauri-plugin-store = "2.0"
+tauri-plugin-notification = "2.0"
+tauri-plugin-updater = "2.0"
+tauri-plugin-process = "2.0"
+tauri-plugin-dialog = "2.0"
+tauri-plugin-clipboard-manager = "2.0"
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Async runtime
+tokio = { version = "1.0", features = ["full"] }
+
+# HTTP client (for API tester and fetch command)
+reqwest = { version = "0.12", features = ["json", "stream", "multipart"] }
+
+# Archive support
+zip = "2.1"
+
+# Encryption (AES-256-GCM)
+aes-gcm = "0.10"
+argon2 = "0.5"
+
+# Random numbers
+rand = "0.8"
+
+# UUID generation
+uuid = { version = "1.10", features = ["v4"] }
+
+# Database (for browser importer)
+rusqlite = { version = "0.31", features = ["bundled"] }
+
+# CPU count
+num_cpus = "1.16"
+
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"
+
+# Logging
+log = "0.4"
+env_logger = "0.11"
+
+# URL parsing
+url = "2.5"
+
+# Base64
+base64 = "0.22"
+
+# Time
+chrono = { version = "0.4", features = ["serde"] }
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+lto = true
+opt-level = "s"   # Optimize for size
+strip = true
